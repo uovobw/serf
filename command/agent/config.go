@@ -26,6 +26,7 @@ func DefaultConfig() *Config {
 		Tags:                   make(map[string]string),
 		BindAddr:               "0.0.0.0",
 		AdvertiseAddr:          "",
+		HttpAddr:               "0.0.0.0:8443",
 		LogLevel:               "INFO",
 		RPCAddr:                "127.0.0.1:7373",
 		Protocol:               serf.ProtocolVersionMax,
@@ -72,6 +73,10 @@ type Config struct {
 	// other members of the cluster. Can be used for basic NAT traversal
 	// where both the internal ip:port and external ip:port are known.
 	AdvertiseAddr string `mapstructure:"advertise"`
+
+	// HttpAddr is the address the Serf agent will use to listen for
+	// incoming HTTP requests
+	HttpAddr string `mapstructure:"http"`
 
 	// EncryptKey is the secret key to use for encrypting communication
 	// traffic for Serf. The secret key must be exactly 16-bytes, base64
@@ -361,6 +366,9 @@ func MergeConfig(a, b *Config) *Config {
 	}
 	if b.AdvertiseAddr != "" {
 		result.AdvertiseAddr = b.AdvertiseAddr
+	}
+	if b.HttpAddr != "" {
+		result.HttpAddr = b.HttpAddr
 	}
 	if b.EncryptKey != "" {
 		result.EncryptKey = b.EncryptKey

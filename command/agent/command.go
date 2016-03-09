@@ -53,6 +53,7 @@ func (c *Command) readConfig() *Config {
 	cmdFlags.Usage = func() { c.Ui.Output(c.Help()) }
 	cmdFlags.StringVar(&cmdConfig.BindAddr, "bind", "", "address to bind listeners to")
 	cmdFlags.StringVar(&cmdConfig.AdvertiseAddr, "advertise", "", "address to advertise to cluster")
+	cmdFlags.StringVar(&cmdConfig.HttpAddr, "http", "", "address to bind http server to")
 	cmdFlags.Var((*AppendSliceValue)(&configFiles), "config-file",
 		"json file to read config from")
 	cmdFlags.Var((*AppendSliceValue)(&configFiles), "config-dir",
@@ -425,10 +426,17 @@ func (c *Command) startAgent(config *Config, agent *Agent,
 	c.Ui.Info(fmt.Sprintf("     Encrypted: %#v", agent.serf.EncryptionEnabled()))
 	c.Ui.Info(fmt.Sprintf("      Snapshot: %v", config.SnapshotPath != ""))
 	c.Ui.Info(fmt.Sprintf("       Profile: %s", config.Profile))
+	c.Ui.Info(fmt.Sprintf("   Http server: %s", config.HttpAddr))
 
 	if config.Discover != "" {
 		c.Ui.Info(fmt.Sprintf("  mDNS cluster: %s", config.Discover))
 	}
+
+	c.Ui.Info("running http server")
+	if agent.agentConf.HttpAddr != "" {
+		go agent.RunHttpServer()
+	}
+
 	return ipc
 }
 
