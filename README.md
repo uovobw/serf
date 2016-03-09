@@ -1,5 +1,9 @@
 # Serf
 
+**Note**: this is not the original version, this is a work-in-progress fork of the original hashicorp
+project. It differs from the original only in the fact it exposes a /members HTTP GET-table 
+route on a configurable port. It is most probably a bad idea and should NOT be used in production.
+
 * Website: https://www.serfdom.io
 * IRC: `#serfdom` on Freenode
 * Mailing list: [Google Groups](https://groups.google.com/group/serfdom/)
