@@ -125,21 +125,21 @@ func (s SerfState) String() string {
 
 // Member is a single member of the Serf cluster.
 type Member struct {
-	Name   string
-	Addr   net.IP
-	Port   uint16
-	Tags   map[string]string
-	Status MemberStatus
+	Name   string            `json:"name"`
+	Addr   net.IP            `json:"addr"`
+	Port   uint16            `json:"port"`
+	Tags   map[string]string `json:"tags"`
+	Status MemberStatus      `json:"status"`
 
 	// The minimum, maximum, and current values of the protocol versions
 	// and delegate (Serf) protocol versions that each member can understand
 	// or is speaking.
-	ProtocolMin uint8
-	ProtocolMax uint8
-	ProtocolCur uint8
-	DelegateMin uint8
-	DelegateMax uint8
-	DelegateCur uint8
+	ProtocolMin uint8 `json:"protocol_min"`
+	ProtocolMax uint8 `json:"protocol_max"`
+	ProtocolCur uint8 `json:"protocol_cur"`
+	DelegateMin uint8 `json:"delegate_min"`
+	DelegateMax uint8 `json:"delegate_max"`
+	DelegateCur uint8 `json:"delegate_cur"`
 }
 
 // MemberStatus is the state that a member is in.
